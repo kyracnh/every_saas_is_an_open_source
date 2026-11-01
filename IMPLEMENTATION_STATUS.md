@@ -1,5 +1,10 @@
 # Implementation status
 
+## README sponsor link — 2026-11-01
+
+- Added a centered sponsor button at the top of the README linking to the provided ComeUp payment URL.
+- Documentation-only change; checked the link and diff. Application checks were not rerun.
+
 Updated 2026-10-28. **Working engineering preview; the complete master-prompt scope and public-release acceptance are not finished.** Nothing has been pushed, deployed publicly, published to npm, or claimed to save a measured percentage of tokens.
 
 ## Implemented

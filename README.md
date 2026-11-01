@@ -1,4 +1,10 @@
 <p align="center">
+  <a href="https://comeup.com/fr/pay/aU3227oF4drY">
+    <img src="https://img.shields.io/badge/%E2%99%A5_Sponsor_this_project-db2777?style=for-the-badge" alt="Sponsor this project" />
+  </a>
+</p>
+
+<p align="center">
   <img src="public/logo.svg" alt="SAASFast flamingo logo" width="72" height="72" />
 </p>
 
