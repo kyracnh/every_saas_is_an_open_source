@@ -1,217 +1,372 @@
 import Link from "next/link";
-import { BrandMark } from "@/components/shared/brand-mark";
 import {
   ArrowRight,
-  ShieldCheck,
-  Database,
-  Sparkles,
+  ArrowUpRight,
+  Blocks,
   Check,
-  Code2,
+  CheckCheck,
+  ChevronDown,
+  Activity,
+  Database,
+  Layers3,
+  LockKeyhole,
+  Package,
+  Plug,
+  Search,
+  Server,
+  Terminal,
+  Workflow,
+  ChartNoAxesCombined,
 } from "lucide-react";
-import { appConfig } from "@/config/app";
+import { TechnologyLogo } from "@/components/shared/technology-logo";
+import { HeroBackground } from "@/components/shared/hero-background";
+import { BrandMark } from "@/components/shared/brand-mark";
+import { FeatureCatalog } from "@/components/shared/feature-catalog";
 import { Button } from "@/components/ui/button";
-import { Card, Badge } from "@/components/ui/card";
-import { ThemeToggle } from "@/components/shared/providers";
+import { appConfig, presets, type Preset } from "@/config/app";
+import manifest from "../../package.json";
+
+const stack = [
+  { name: "Next.js", slug: "nextdotjs" },
+  { name: "React", slug: "react" },
+  { name: "TypeScript", slug: "typescript" },
+  { name: "PostgreSQL", slug: "postgresql" },
+  { name: "Prisma", slug: "prisma" },
+  { name: "Better Auth", slug: "betterauth" },
+];
+const supportingStack = [
+  { name: "Radix UI", slug: "radixui" },
+  { name: "Tailwind CSS", slug: "tailwindcss" },
+  { name: "React Hook Form", slug: "reacthookform" },
+  { name: "Zod", slug: "zod" },
+  { name: "TanStack", slug: "tanstack" },
+  { name: "Vitest", slug: "vitest" },
+  { name: "Playwright", slug: "playwright" },
+  { name: "Node.js", slug: "nodedotjs" },
+  { name: "Docker", slug: "docker" },
+];
+const providers = [
+  { name: "Stripe", slug: "stripe" },
+  { name: "OpenAI", slug: "openai" },
+  { name: "Anthropic", slug: "anthropic" },
+  { name: "Google Gemini", slug: "googlegemini" },
+];
+const extensions = [
+  {
+    title: "Search",
+    icon: Search,
+    tools: [
+      {
+        name: "Meilisearch",
+        slug: "meilisearch",
+        url: "https://www.meilisearch.com/",
+      },
+      { name: "Algolia", slug: "algolia", url: "https://www.algolia.com/" },
+    ],
+  },
+  {
+    title: "Background jobs",
+    icon: Workflow,
+    tools: [
+      { name: "Inngest", slug: "inngest", url: "https://www.inngest.com/" },
+    ],
+  },
+  {
+    title: "Observability",
+    icon: Activity,
+    tools: [
+      { name: "Sentry", slug: "sentry", url: "https://sentry.io/" },
+      {
+        name: "OpenTelemetry",
+        slug: "opentelemetry",
+        url: "https://opentelemetry.io/",
+      },
+    ],
+  },
+  {
+    title: "Analytics",
+    icon: ChartNoAxesCombined,
+    tools: [
+      { name: "PostHog", slug: "posthog", url: "https://posthog.com/" },
+      { name: "Plausible", slug: "plausible", url: "https://plausible.io/" },
+    ],
+  },
+  {
+    title: "Cache & rate limits",
+    icon: Server,
+    tools: [
+      { name: "Redis", slug: "redis", url: "https://redis.io/" },
+      { name: "Upstash", slug: "upstash", url: "https://upstash.com/" },
+    ],
+  },
+  {
+    title: "Managed PostgreSQL",
+    icon: Database,
+    tools: [
+      { name: "Neon", slug: "neon", url: "https://neon.com/" },
+      { name: "Supabase", slug: "supabase", url: "https://supabase.com/" },
+    ],
+  },
+];
 export default function Home() {
+  const configured = process.env.NEXT_PUBLIC_PRESET ?? "standard";
+  const currentPreset: Preset =
+    configured in presets ? (configured as Preset) : "standard";
   return (
-    <>
-      <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
+    <div className="landing dark">
+      <header className="landing-header landing-container">
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg font-semibold"
+          className="landing-brand"
+          aria-label={`${appConfig.name} home`}
         >
-          <BrandMark />
+          <BrandMark size={32} />
           {appConfig.name}
+          <span className="brand-divider">/</span>
+          <span className="brand-caption">boilerplate</span>
         </Link>
-        <nav className="hidden items-center gap-7 text-sm md:flex">
+        <nav aria-label="Main navigation">
           <a href="#features">Features</a>
-          <a href="#pricing">Pricing</a>
-          <Link href="/docs">Documentation</Link>
+          <a href="#stack">Stack</a>
+          <a href="#integrations">Integrations</a>
+          <Link href="/docs">
+            Docs <ArrowUpRight size={14} aria-hidden="true" />
+          </Link>
         </nav>
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <Button asChild variant="ghost">
-            <Link href="/login">Log in</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/register">
-              Get started <ArrowRight size={15} />
-            </Link>
-          </Button>
-        </div>
+        <Button asChild variant="outline" className="landing-login">
+          <Link href="/login">
+            Log in <ArrowUpRight size={17} />
+          </Link>
+        </Button>
       </header>
       <main id="main">
-        <section className="mx-auto grid max-w-6xl gap-14 px-6 pb-24 pt-20 lg:grid-cols-2 lg:items-center">
-          <div>
-            <Badge>OPEN SOURCE. YOURS TO BUILD ON.</Badge>
-            <h1 className="mt-7 text-5xl font-medium leading-[1.08] md:text-7xl">
-              Less setup.
-              <br />
-              More <span className="text-muted-foreground">possibility.</span>
-            </h1>
-            <p className="mt-6 max-w-lg text-lg leading-8 text-muted-foreground">
-              A thoughtful foundation for your next SaaS. Authentication,
-              workspaces, and reusable building blocks — ready for your own
-              ideas.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild>
-                <Link href="/register">
-                  Start building <ArrowRight size={16} />
-                </Link>
-              </Button>
-              <Button asChild variant="outline">
-                <a href="https://github.com/kyracnh/ModuSaaS">
-                  <Code2 size={16} /> View source
-                </a>
-              </Button>
-            </div>
-            <p className="mt-5 text-xs text-muted-foreground">
-              MIT licensed · PostgreSQL · No paid services required
-            </p>
-          </div>
-          <Card className="overflow-hidden !p-0">
-            <div className="flex items-center gap-1.5 border-b border-border px-5 py-4">
-              <span className="size-2 rounded-full bg-border" />
-              <span className="size-2 rounded-full bg-border" />
-              <span className="size-2 rounded-full bg-border" />
-              <span className="ml-4 text-xs text-muted-foreground">
-                Your next project starts here
-              </span>
-            </div>
-            <div className="p-7">
-              <div className="mb-8 flex items-center justify-between">
-                <span className="text-sm font-medium">
-                  A foundation, thoughtfully connected.
-                </span>
-                <BrandMark />
+        <div className="hero-stage">
+          <HeroBackground />
+          <section className="landing-hero landing-container">
+            <div className="hero-copy">
+              <div className="landing-eyebrow">
+                <span className="accent-dot" /> Open source. Fully yours.
               </div>
-              {[
-                ["01", "Identity", "Authentication & secure sessions"],
-                ["02", "Your data", "Typed models & scoped queries"],
-                ["03", "Your product", "Reusable forms & components"],
-                ["04", "Your choice", "Optional providers & deployment"],
-              ].map(([n, title, sub]) => (
-                <div
-                  key={n}
-                  className="flex items-center gap-5 border-t border-border py-5"
-                >
-                  <span className="font-mono text-xs text-muted-foreground">
-                    {n}
-                  </span>
-                  <div>
-                    <p className="text-sm font-medium">{title}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">{sub}</p>
-                  </div>
-                  <Check size={15} className="ml-auto text-muted-foreground" />
-                </div>
-              ))}
-              <div className="mt-4 rounded-lg bg-muted px-4 py-3 font-mono text-xs">
-                $ pnpm setup && pnpm dev
-              </div>
-            </div>
-          </Card>
-        </section>
-        <section id="features" className="border-y border-border bg-card py-20">
-          <div className="mx-auto max-w-6xl px-6">
-            <p className="text-xs font-medium tracking-widest text-muted-foreground">
-              THE ESSENTIALS, ALREADY CONSIDERED
-            </p>
-            <h2 className="mt-4 text-3xl font-medium">
-              Build your product. Keep the foundation.
-            </h2>
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {[
-                [
-                  ShieldCheck,
-                  "Identity you can build on",
-                  "Email and password authentication, protected routes, and server-side authorization.",
-                ],
-                [
-                  Database,
-                  "Data with boundaries",
-                  "PostgreSQL, typed Prisma queries, and a complete resource management example.",
-                ],
-                [
-                  Sparkles,
-                  "Room for what comes next",
-                  "Optional teams, billing, storage, and AI. Enable what your product actually needs.",
-                ],
-              ].map(([Icon, title, text]) => (
-                <Card key={String(title)}>
-                  {typeof Icon !== "string" && <Icon size={22} />}
-                  <h3 className="mt-6 font-medium">{String(title)}</h3>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                    {String(text)}
-                  </p>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-        <section id="pricing" className="mx-auto max-w-6xl px-6 py-20">
-          <h2 className="text-3xl font-medium">
-            A free foundation. Your business model.
-          </h2>
-          <p className="mt-4 text-muted-foreground">
-            The software is free. These configurable example plans demonstrate
-            app entitlements.
-          </p>
-          <div className="mt-8 grid max-w-3xl gap-5 md:grid-cols-2">
-            {Object.entries(appConfig.plans).map(([key, p]) => (
-              <Card key={key}>
-                <Badge>{p.name}</Badge>
-                <h3 className="my-5 text-2xl font-medium">
-                  {key === "free"
-                    ? "Start with the essentials"
-                    : "Grow with your product"}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {p.projectLimit} projects · {p.aiRequestsPerDay} daily AI
-                  requests when enabled
-                </p>
-                <Button asChild className="mt-7">
-                  <Link href="/register">Create an account</Link>
+              <h1>
+                Your next SaaS.
+                <br />
+                <span>Minus the setup.</span>
+              </h1>
+              <p>
+                <strong>
+                  Don’t waste time or tokens rebuilding the basics.
+                </strong>{" "}
+                Start with auth, data and teams already connected.
+              </p>
+              <div className="hero-actions">
+                <Button asChild className="landing-primary">
+                  <Link href="/register">
+                    Start building <ArrowRight size={20} />
+                  </Link>
                 </Button>
-              </Card>
+                <Button asChild variant="outline" className="landing-secondary">
+                  <a href="https://github.com/kyracnh/ModuSaaS">
+                    <TechnologyLogo
+                      slug="github"
+                      name="GitHub"
+                      size={20}
+                      label={false}
+                    />{" "}
+                    Explore the code
+                  </a>
+                </Button>
+              </div>
+              <div className="hero-assurances">
+                <span>
+                  <Check size={16} /> MIT core
+                </span>
+                <span>
+                  <Check size={16} /> No paid keys for core
+                </span>
+                <span>
+                  <Check size={16} /> One application
+                </span>
+              </div>
+            </div>
+            <div
+              className="hero-blueprint"
+              aria-label="Boilerplate architecture"
+            >
+              <div className="blueprint-heading">
+                <span>
+                  <Blocks size={19} /> Your product
+                </span>
+              </div>
+              <div className="blueprint-main">
+                <div className="blueprint-app">
+                  <span className="blueprint-icon">
+                    <Layers3 size={31} strokeWidth={1.5} />
+                  </span>
+                  <h2>Build the idea.</h2>
+                </div>
+                <div className="blueprint-connector" />
+                <div className="blueprint-modules">
+                  {[
+                    [LockKeyhole, "Auth"],
+                    [Database, "Data"],
+                    [Blocks, "UI"],
+                  ].map(([Icon, name]) => {
+                    const Component = Icon as typeof Database;
+                    return (
+                      <div key={String(name)}>
+                        <Component size={23} strokeWidth={1.5} />
+                        <span>{String(name)}</span>
+                        <CheckCheck size={17} />
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="blueprint-optional">
+                  <Plug size={18} />
+                  <span>Teams · Payments · AI · Storage</span>
+                </div>
+              </div>
+              <div className="blueprint-terminal">
+                <Terminal size={18} />
+                <code>pnpm run setup &amp;&amp; pnpm dev</code>
+                <span className="accent-dot" />
+              </div>
+            </div>
+          </section>
+        </div>
+        <div className="foundation-strip landing-container">
+          <div>
+            {stack.map(({ name, slug }) => (
+              <TechnologyLogo key={slug} name={name} slug={slug} size={24} />
+            ))}
+          </div>
+        </div>
+        <section id="features" className="landing-section landing-container">
+          <div className="section-heading">
+            <div>
+              <h2>Choose your features.</h2>
+            </div>
+          </div>
+          <FeatureCatalog currentPreset={currentPreset} />
+        </section>
+        <section id="stack" className="landing-section stack-section">
+          <div className="landing-container">
+            <div className="section-heading">
+              <div>
+                <h2>The installed stack.</h2>
+              </div>
+            </div>
+            <div className="stack-grid">
+              {stack.map(({ name, slug }) => (
+                <article key={slug}>
+                  <TechnologyLogo name={name} slug={slug} size={40} />
+                </article>
+              ))}
+            </div>
+            <div className="stack-extras">
+              {supportingStack.map(({ name, slug }) => (
+                <TechnologyLogo key={slug} name={name} slug={slug} size={23} />
+              ))}
+            </div>
+            <div className="provider-stack">
+              <span className="provider-label">
+                <Plug size={18} aria-hidden="true" /> Optional providers
+              </span>
+              {providers.map(({ name, slug }) => (
+                <TechnologyLogo key={slug} name={name} slug={slug} size={25} />
+              ))}
+            </div>
+            <div className="dependency-list">
+              {[
+                ["Runtime dependencies", manifest.dependencies],
+                ["Development dependencies", manifest.devDependencies],
+              ].map(([title, packages]) => (
+                <details key={String(title)}>
+                  <summary>
+                    <span>
+                      <Package size={21} />
+                      {String(title)}{" "}
+                      <span className="dependency-count">
+                        {Object.keys(packages).length}
+                      </span>
+                    </span>
+                    <ChevronDown size={20} />
+                  </summary>
+                  <div className="dependency-grid">
+                    {Object.entries(packages)
+                      .sort(([a], [b]) => a.localeCompare(b))
+                      .map(([name, version]) => (
+                        <div key={name}>
+                          <code>{name}</code>
+                          <span>{version}</span>
+                        </div>
+                      ))}
+                  </div>
+                </details>
+              ))}
+            </div>
+            <p className="catalog-note">
+              All packages stay installed across presets. Providers require
+              configuration.
+            </p>
+          </div>
+        </section>
+        <section
+          id="integrations"
+          className="landing-section landing-container"
+        >
+          <div className="section-heading">
+            <div>
+              <h2>More possibilities.</h2>
+            </div>
+            <p>Possible integrations. Implementation required.</p>
+          </div>
+          <div className="integration-grid">
+            {extensions.map(({ title, tools, icon: Icon }) => (
+              <article key={title}>
+                <h3>
+                  <Icon size={20} strokeWidth={1.7} aria-hidden="true" />
+                  {title}
+                </h3>
+                <div className="integration-brands">
+                  {tools.map(({ name, slug, url }) => (
+                    <a href={url} key={slug}>
+                      <TechnologyLogo name={name} slug={slug} size={29} />
+                      <ArrowUpRight size={15} aria-hidden="true" />
+                    </a>
+                  ))}
+                </div>
+              </article>
             ))}
           </div>
         </section>
-        <section className="mx-auto max-w-6xl border-t border-border px-6 py-16">
-          <h2 className="mb-6 text-3xl font-medium">A few things to know.</h2>
-          {[
-            [
-              "Do I need Docker?",
-              "No. Run a single Next.js application with a local or managed PostgreSQL database.",
-            ],
-            [
-              "Do I need paid API keys?",
-              "No. Core authentication, projects, and the dashboard work without paid services.",
-            ],
-            [
-              "Is the 95% token saving measured?",
-              "No. It is an aspirational goal. The repository provides a benchmark method, not an unsupported result.",
-            ],
-          ].map(([q, a]) => (
-            <details key={q} className="border-b border-border py-5">
-              <summary className="font-medium">{q}</summary>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
-                {a}
-              </p>
-            </details>
-          ))}
+        <section className="landing-cta landing-container">
+          <h2>
+            Make it <span>your own.</span>
+          </h2>
+          <Button asChild className="landing-primary">
+            <Link href="/register">
+              Start building <ArrowRight size={20} />
+            </Link>
+          </Button>
+          <Link href="/docs" className="cta-docs">
+            Read the documentation <ArrowUpRight size={18} />
+          </Link>
         </section>
       </main>
-      <footer className="mx-auto flex max-w-6xl flex-wrap justify-between gap-4 border-t border-border px-6 py-8 text-sm text-muted-foreground">
-        <p>{appConfig.name} · Built to become your own.</p>
-        <div className="flex gap-5">
-          {appConfig.footer.map((l) => (
-            <Link key={l.href} href={l.href}>
-              {l.label}
-            </Link>
-          ))}
+      <footer className="landing-footer landing-container">
+        <Link href="/" className="landing-brand">
+          <BrandMark size={27} />
+          {appConfig.name}
+        </Link>
+        <p>MIT core · Engineering preview</p>
+        <div>
+          <Link href="/docs">Documentation</Link>
+          <a href="https://github.com/kyracnh/ModuSaaS">
+            GitHub <ArrowUpRight size={16} />
+          </a>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

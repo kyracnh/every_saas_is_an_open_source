@@ -24,14 +24,14 @@ export const presets = {
 export type Preset = keyof typeof presets;
 const preset = (process.env.NEXT_PUBLIC_PRESET ?? "standard") as Preset;
 export const appConfig = {
-  name: process.env.NEXT_PUBLIC_APP_NAME ?? "ModuSaaS",
+  name: process.env.NEXT_PUBLIC_APP_NAME ?? "SAASFast",
   description: "The foundation for your next great product.",
   url: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   logo: "/logo.svg",
   favicon: "/favicon.svg",
   theme: {
-    default: "system",
-    accent: "neutral",
+    default: "dark",
+    accent: "#ff6082",
     font: "system-ui, sans-serif",
   },
   languages: ["en"],

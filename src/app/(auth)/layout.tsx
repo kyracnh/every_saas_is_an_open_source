@@ -11,7 +11,9 @@ export default function AuthLayout({
     <main id="main" className="grid min-h-screen lg:grid-cols-2">
       <aside className="hidden flex-col justify-between bg-primary p-14 text-primary-foreground lg:flex">
         <Link className="flex items-center gap-3 text-xl font-medium" href="/">
-          <BrandMark />
+          <span className="inline-flex rounded-md bg-background p-1.5">
+            <BrandMark />
+          </span>
           {appConfig.name}
         </Link>
         <div>

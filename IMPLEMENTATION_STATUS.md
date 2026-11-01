@@ -59,3 +59,57 @@ Reusable `install_script` and `start_skill` were saved to the environment draft 
 Repeated VFS Docker builds exhausted the 32 GB root disk once; only task-created obsolete images/build cache were reclaimed. PostgreSQL volumes and repository files were preserved. Local production test stacks were stopped after verification; their volumes were preserved. No live provider credentials were requested or fabricated.
 
 Next priorities: finish the remaining UI/generator scope; close billing concurrency and retention/deletion gaps; verify real providers in test accounts; exercise remaining deployment/backup scenarios; complete the release checklist in `docs/release-checklist.md`. Keep this an engineering preview until those gates are satisfied.
+
+## Local development run — 2026-11-01
+
+- Installed locked dependencies with pnpm 11.25.0 on Node 24.16.0.
+- Created an ignored local `.env` with a random auth secret and an isolated PostgreSQL 16.15 database on port 55432 (the available local version; PostgreSQL 17 remains the documented requirement).
+- Setup generated the Prisma client and applied both committed migrations successfully.
+- Started the Next.js development server at http://localhost:3000 and verified `GET /` returned HTTP 200.
+- This startup check did not run the full validation suites or exercise authenticated flows.
+
+## Homepage and visual refresh — 2026-11-01
+
+- Rebuilt the homepage with a flat charcoal design, `#FF6082` accents, larger readable copy, consistent Lucide icons and matching logo/favicon. Shared dark tokens and the default theme now use this palette.
+- Added a 12-feature catalog with minimal/standard/full preset previews, availability filters and setup disclosures. Preview selection does not modify running configuration or imply provider readiness.
+- Listed all 32 runtime and 17 development dependencies with versions sourced from `package.json`. Added a separate section for possible integrations that explicitly require implementation.
+- Updated the existing end-to-end homepage heading assertion for the revised copy.
+- Validation: lint passed with the existing TanStack Table React Compiler warning; typecheck passed; 10 unit tests, 15 integration tests and all 4 desktop/mobile end-to-end tests passed; formatting and production build passed.
+- Additional browser checks passed for preset previews, optional-module filtering, dependency disclosures, desktop/mobile rendering and mobile horizontal overflow. Screenshots were inspected locally. No external provider validation or deployment was performed.
+
+## Technology logos and simpler homepage copy — 2026-11-01
+
+- Added 31 locally hosted SVG brand marks from Simple Icons and SVGL, with source attribution and upstream license texts. Installed technologies, optional providers and possible integrations now use recognizable logos; feature categories retain Lucide icons.
+- Removed numbered section labels, repeated subtitles and integration descriptions. Possible integrations link to their product sites and remain explicitly separate from installed providers.
+- Validation: typecheck, formatting, production build, 10 unit tests, 15 integration tests and 4 desktop/mobile end-to-end tests passed. Lint passed with the existing TanStack Table compiler warning. Additional browser checks confirmed logo loading, preset filters, dependency disclosures and no mobile horizontal overflow; desktop and mobile screenshots were inspected.
+
+## Animated hero and platform mark — 2026-11-01
+
+- Updated the hero copy to “Don’t waste time or tokens rebuilding the basics,” without adding a quantified savings claim.
+- Added a CSS-animated hero background with pink glows, grid lines and geometric outlines. Animation uses transforms/opacity, supports pause/play and becomes static under reduced-motion preferences.
+- Replaced the platform logo and favicon with an original pink angular M monogram as lightweight, transparent SVG assets.
+- Validation: typecheck, formatting, production build, 10 unit tests, 15 integration tests and 4 end-to-end tests passed. Lint passed with the existing TanStack Table compiler warning. Browser checks passed for the hero copy, pause/play, reduced motion, mobile overflow and browser errors; desktop screenshot inspected.
+
+## React Bits LetterGlitch hero — 2026-11-01
+
+- Replaced the previous glow/orbit animation with the user-supplied React Bits LetterGlitch JavaScript/CSS component and a typed public interface. No packages were added. Pink/white glitches, edge fades and a dark text mask preserve the theme and copy readability.
+- Added a frame-freezing pause prop, retained pause/play controls, and handled live reduced-motion preference changes with a static canvas. Removed explicit WebGL context loss from cleanup because React development remounts reused the lost context; GPU resources and listeners are still deleted.
+- Included the upstream MIT + Commons Clause license and attribution. README and third-party notices document its component/template redistribution restrictions; homepage licensing now identifies the MIT core separately.
+- Validation: typecheck, formatting, production build, 10 unit tests, 15 integration tests and 4 desktop/mobile end-to-end tests passed; lint passed with the existing TanStack Table compiler warning. Browser checks confirmed WebGL initialization, frozen paused frames, resumed animation, live reduced motion, CTA navigation, remount and no mobile overflow. Desktop screenshot inspected. The decorative effect requires WebGL2; unsupported browsers retain the dark fallback background.
+
+## SAASFast name and flamingo identity — 2026-11-01
+
+- Renamed the visible platform to SAASFast through shared app configuration and the ignored local environment override. Updated default email sender branding, environment examples and the README title. Existing repository links and database identifiers are preserved.
+- Created an original minimalist flamingo SVG in `#FF6082`, with a curved neck, folded wing and bent leg; reused it for the favicon and shared brand mark. Added a contrasting tile on the pink authentication panel so the logo remains visible.
+- Validation: typecheck, formatting, production build, 10 unit tests, 15 integration tests and 4 desktop/mobile end-to-end tests passed; lint passed with the existing TanStack Table compiler warning. Browser checks confirmed the homepage title, header/footer name, registration branding and no mobile overflow; inspected the logo at 256px and 32px.
+
+## Feature-card background icons — 2026-11-01
+
+- Added a large, faint pink version of each feature's icon behind all 12 cards in “Choose your features.” Icons are clipped to their card, hidden from assistive technology and ignore pointer events.
+- Validation: typecheck, formatting, production build, 10 unit tests, 15 integration tests and 4 desktop/mobile end-to-end tests passed. Lint passed with the existing TanStack Table compiler warning. Browser checks verified all 12 icons, setup disclosures, preset filtering and no mobile horizontal overflow; desktop screenshot inspected.
+
+## README refresh and homepage screenshots — 2026-11-01
+
+- Updated the README with SAASFast identity, the flamingo mark, a preset availability matrix, grouped technology details and possible integration examples. Clarified the homepage preview behavior and retained setup, deployment, licensing and engineering-preview guidance.
+- Captured real homepage, feature-catalog and installed-stack PNG screenshots in `docs/images/` and embedded them in the relevant README sections. Preserved the existing dashboard image.
+- Validation: inspected homepage and stack screenshots; checked screenshot dimensions and all local README link/image targets; Prettier and `git diff --check` passed. This documentation/image-only change did not rerun application tests or the build.

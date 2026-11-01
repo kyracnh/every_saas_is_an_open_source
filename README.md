@@ -1,12 +1,20 @@
-# ModuSaaS
+<p align="center">
+  <img src="public/logo.svg" alt="SAASFast flamingo logo" width="72" height="72" />
+</p>
 
-An MIT-licensed, modular TypeScript SaaS foundation. Build your product on a reusable Next.js application with PostgreSQL, Better Auth, accessible UI, and authorized CRUD.
+# SAASFast
 
-> Stop rebuilding the same infrastructure. Start building your actual product.
+**Your next SaaS. Minus the setup.**
+
+Don’t waste time or tokens rebuilding the basics. SAASFast is a modular TypeScript SaaS boilerplate with authentication, PostgreSQL, teams and reusable UI. Start with the MIT-licensed core and configure the modules your product needs.
+
+[Quick start](#quick-start) · [Features](#features) · [Presets](#choose-your-preset) · [Stack](#stack-and-layout) · [Documentation](#guides)
+
+![SAASFast homepage with its pink flamingo identity, LetterGlitch background and core technology logos](docs/images/homepage.png)
 
 **Engineering preview.** See [implementation status](IMPLEMENTATION_STATUS.md) for verified behavior, limitations, and release gates. This repository does not claim production certification, a published npm package, or measured 95% token savings.
 
-![Real dashboard with persisted test project data](docs/images/dashboard.png)
+The React Bits LetterGlitch hero background has a separate MIT + Commons Clause license. Its component/template redistribution restrictions apply; see [third-party notices](THIRD_PARTY_NOTICES.md).
 
 ## Quick start
 
@@ -18,7 +26,7 @@ corepack prepare pnpm@11.25.0 --activate
 pnpm install --frozen-lockfile
 # Start your own PostgreSQL, or use the optional Docker database:
 docker compose -f compose.dev.yml up -d db
-pnpm setup
+pnpm run setup
 pnpm dev
 ```
 
@@ -26,7 +34,7 @@ pnpm dev
 
 Open the local application in your development environment, register, and create a project. No OAuth, payment, AI, Redis, or object-storage keys are needed. Without SMTP, registration signs in directly; email verification and recovery require SMTP. Use Mailpit to test email locally. Production deployments should configure SMTP before admitting users.
 
-## What is included
+## Features
 
 - Next.js App Router modular monolith, React Server Components, strict TypeScript, Tailwind tokens and light/dark themes.
 - Better Auth email/password, sessions, protected pages, profile/password changes, recovery, verification, optional Google/GitHub OAuth, account deletion guards.
@@ -39,9 +47,39 @@ Open the local application in your development environment, register, and create
 
 External adapters are real implementations but require configured providers. Live payment/AI/S3 validation is separate from fixture tests. Some requested advanced features remain unimplemented; consult status rather than treating this list as a release guarantee.
 
+![SAASFast feature catalog with availability badges, preset previews and background icons for each module](docs/images/features.png)
+
+The homepage previews `minimal`, `standard` and `full` presets, filters included and optional modules, and explains setup requirements. These controls preview availability; they do not change the running configuration.
+
+## Choose your preset
+
+| Feature                                    | Minimal                 | Standard                | Full                           |
+| ------------------------------------------ | ----------------------- | ----------------------- | ------------------------------ |
+| Auth, database, projects, dashboard and UI | Included                | Included                | Included                       |
+| Teams and notifications                    | Disabled                | Included                | Included                       |
+| Stripe billing                             | Disabled                | Disabled                | Configure Stripe               |
+| AI studio                                  | Disabled                | Disabled                | Configure an AI provider       |
+| Private file uploads                       | Disabled                | Disabled                | Local storage or configured S3 |
+| SMTP email                                 | Configure independently | Configure independently | Configure independently        |
+
+Set `NEXT_PUBLIC_PRESET` in your environment before building. Provider keys stay server-side. All presets retain the source files and dependencies; disabled modules reject direct API requests. Magic-link and two-factor UI, background jobs and paid team billing still require development.
+
+![Authenticated project dashboard with persisted test project data](docs/images/dashboard.png)
+
 ## Stack and layout
 
-Node 24 · pnpm · Next.js 16 · React 19 · TypeScript · Tailwind 4 · Prisma 7 · PostgreSQL · Better Auth · Zod · React Hook Form · Radix/shadcn · Vitest · Playwright.
+![Installed SAASFast technologies, optional provider logos and expandable dependency lists](docs/images/stack.png)
+
+| Layer                   | Technologies                                                                    |
+| ----------------------- | ------------------------------------------------------------------------------- |
+| Runtime and framework   | Node 24, pnpm, Next.js 16, React 19, TypeScript                                 |
+| Database and identity   | PostgreSQL, Prisma 7, Better Auth                                               |
+| Interface and forms     | Tailwind CSS 4, Radix/shadcn, React Hook Form, Zod, Lucide, Sonner              |
+| Tables and charts       | TanStack Table, Recharts                                                        |
+| Optional providers      | Stripe, AI SDK with OpenAI/Anthropic/Google, SMTP/React Email, local/S3 storage |
+| Validation and delivery | Vitest, Playwright, ESLint, Prettier, Node/Docker deployment                    |
+
+The homepage lists every runtime and development dependency with versions sourced directly from [`package.json`](package.json). PostgreSQL is a separately provisioned service.
 
 ```text
 src/app/             pages, layouts, API handlers
@@ -54,6 +92,21 @@ scripts/             setup and pinned engine-free Prisma tooling
 tooling/             local generator and benchmark reporter
 docs/                architecture, deployment and AI development recipes
 ```
+
+## Possible integrations
+
+The homepage links to technologies you can add. These are extension ideas, not installed adapters:
+
+| Capability            | Examples                |
+| --------------------- | ----------------------- |
+| Search                | Meilisearch, Algolia    |
+| Background jobs       | Inngest                 |
+| Observability         | Sentry, OpenTelemetry   |
+| Product analytics     | PostHog, Plausible      |
+| Cache and rate limits | Redis, Upstash          |
+| Managed PostgreSQL    | Neon, Supabase Postgres |
+
+Managed PostgreSQL can connect through the existing database configuration. The other extensions require implementation and provider setup; selecting a preset does not install them.
 
 ## Commands
 
@@ -77,7 +130,7 @@ Edit `src/config/app.ts` for brand, assets, typography, plans, languages, links 
 
 Copy `.env.example` for server/provider settings. Never put credentials in `NEXT_PUBLIC_*` variables. Never commit `.env`. Google/GitHub credentials enable their server-side providers; custom OAuth buttons can use `authClient.signIn.social`. Magic links and two-factor UI are not implemented.
 
-Presets: `minimal` enables auth/database/dashboard/CRUD; `standard` adds teams and notifications; `full` adds billing/AI/storage. Email is independently configured. Presets gate routes and navigation; **all provider dependencies and source files are retained**. Heavy provider imports stay on the server. No Redis or background worker is required.
+See [Choose your preset](#choose-your-preset) for module availability. Heavy provider imports stay on the server. No Redis or background worker is required.
 
 ## Docker
 

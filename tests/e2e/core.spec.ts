@@ -4,7 +4,9 @@ test("register, manage projects, update profile, and navigate responsively", asy
 }, info) => {
   const email = `browser-${info.project.name}-${crypto.randomUUID()}@example.com`;
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: /Less setup/ })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /Your next SaaS/ }),
+  ).toBeVisible();
   await page.goto("/register");
   await page.getByLabel("Your name").fill("Browser Test");
   await page.getByLabel("Email address").fill(email);
